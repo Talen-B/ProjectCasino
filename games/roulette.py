@@ -1,9 +1,9 @@
+from helpers import *
 LINE_BREAK = "-" * 25
 
 def show_roulette_options():
-    print(f"""Casino de Gouden driehoek
-{LINE_BREAK}
-Welkom bij roulettes! Kies uit de volgende opties:
+    show_title("Roulettes")
+    print(f"""Kies uit de volgende opties:
  1 - Rood
  2 - Zwart
  3 - Even
@@ -37,40 +37,26 @@ def play_roulette(saldo):
         if roulette_keuze == 0 :
             break
         #Roulette logica
-        while True:
-            inzet = input(f"Je saldo is € {saldo:.2f}\n0 om te annuleren\nWat is je inzet?: € ")
-            if inzet.isdigit():
-                inzet = int(inzet)
+        inzet = input_bet(saldo)
+
+        color = ""
+        odd_even = ""
+        spin = (round_number * 7) % 37
+        round_number += 1
+        if spin <= 18:
+            if spin % 2 == 0:
+                color = "Zwart"
+                odd_even = "Even"
             else:
-                print("Voer een geldig getal in")
-                continue
-            if inzet == 0:
-                continue
-
-            if inzet > int(saldo):
-                print("Niet genoeg saldo.")
-                continue
-
-            color = ""
-            odd_even = ""
-            spin = (round_number * 7) % 37
-            round_number += 1
-            if spin <= 18:
-                if spin % 2 == 0:
-                    color = "Zwart"
-                    odd_even = "Even"
-                else:
-                    color = "Rood"
-                    odd_even = "Oneven"
+                color = "Rood"
+                odd_even = "Oneven"
+        else:
+            if spin % 2 == 0:
+                color = "Rood"
+                odd_even = "Even"
             else:
-                if spin % 2 == 0:
-                    color = "Rood"
-                    odd_even = "Even"
-                else:
-                    color = "Zwart"
-                    odd_even = "Oneven"
-
-            break
+                color = "Zwart"
+                odd_even = "Oneven"
 
         win = determine_result(roulette_keuze, color, odd_even)
         print(LINE_BREAK)
